@@ -22,4 +22,10 @@ router.get("/", (req, res) => {
   });
 });
 
+router.delete("/:id", (req, res) => {
+  Cart.deleteOne({ _id: req.params.id }).then(() => {
+    res.json({ result: true });
+  });
+});
+
 module.exports = router;
