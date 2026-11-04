@@ -37,4 +37,13 @@ router.delete("/:id", (req, res) => {
   });
 });
 
+router.put("/purchase", (req, res) => {
+  Cart.updateMany({ booking: false }, { booking: true })
+    .then(() => {
+      res.json({ result: true });
+    })
+    .catch(() => {
+      res.status(500).json({ result: false });
+    });
+});
 module.exports = router;
