@@ -4,8 +4,6 @@ const moment = require("moment");
 
 const Trips = require("../models/trips");
 
-/* GET users listing. */
-
 router.get("/departure/:cityName", async (req, res) => {
   try {
     const { cityName } = req.params;
@@ -67,6 +65,5 @@ router.get("/date/:date", async (req, res) => {
     });
   }
 });
-
 
 module.exports = router;
