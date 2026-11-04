@@ -4,64 +4,36 @@ const moment = require("moment");
 
 const Trips = require("../models/trips");
 
-router.get("/departure/:cityName", async (req, res) => {
+router.get("/", async (req, res) => {
   try {
-    const { cityName } = req.params;
-    const searchedCity = await Trips.find({
-      departure: new RegExp(`^${cityName}$`, "i"),
-    });
-    if (searchedCity) {
-      res.json({ result: true, trips: searchedCity });
-    } else {
-      res.json({ result: false, error: "City of departure not found" });
+    const { departure, arrival, date } = req.query;
+    const query = {};
+    
+    if (departure) {
+      query.departure = new RegExp(`^${departure}$`, "i");
     }
-  } catch {
-    res.status(500).json({
-      error:
-        "Erreur lors de la récupération de la recherche de ville de départ",
-    });
-  }
-});
-
-router.get("/arrival/:cityName", async (req, res) => {
-  try {
-    const { cityName } = req.params;
-    const searchedCity = await Trips.find({
-      arrival: new RegExp(`^${cityName}$`, "i"),
-    });
-    if (searchedCity) {
-      res.json({ result: true, trips: searchedCity });
-    } else {
-      res.json({ result: false, error: "City of arrival not found" });
+    if (arrival) {
+      query.arrival = new RegExp(`^${arrival}$`, "i");
     }
-  } catch {
-    res.status(500).json({
-      error: "Erreur lors de la récupération de la recherche de ville d'arrivé",
-    });
-  }
-});
+    if (date) {
+      const startDate = moment(date).startOf("day").toDate();
+      const endDate = moment(date).endOf("day").toDate();
+      query.date = { $gte: startDate, $lte: endDate };
+    }
 
-router.get("/date/:date", async (req, res) => {
-  try {
-    const { date } = req.params;
-    const startDate = moment(date).startOf("day").toDate();
-    const endDate = moment(date).endOf("day").toDate();
+    const trips = await Trips.find(query);
 
-    const searchedDate = await Trips.find({
-      date: {
-        $gte: startDate,
-        $lte: endDate,
-      },
-    });
-
-    if (searchedDate.length > 0) {
-      res.json({ result: true, trips: searchedDate });
+    if (trips.length > 0) {
+      res.json({ result: true, trips });
     } else {
-      res.json({ result: false, error: "Date not found" });
+      res.json({
+        result: false,
+        error: "No trips found matching your criteria",
+      });
     }
   } catch (error) {
     res.status(500).json({
-      error: "Erreur lors de la récupération de la recherche de la date",
+      error: "Erreur lors de la recherche des trajets",
     });
   }
 });
