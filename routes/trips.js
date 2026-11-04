@@ -7,8 +7,14 @@ const Trips = require("../models/trips");
 router.get("/", async (req, res) => {
   try {
     const { departure, arrival, date } = req.query;
+    if (!departure) {
+      return res
+        .status(400)
+        .json({ error: "La ville de départ est obligatoire" });
+    }
+
     const query = {};
-    
+
     if (departure) {
       query.departure = new RegExp(`^${departure}$`, "i");
     }
