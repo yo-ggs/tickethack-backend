@@ -31,6 +31,12 @@ router.get("/", (req, res) => {
   });
 });
 
+router.get("/bookings", (req, res) => {
+  Cart.find({ booking: true }).then((data) => {
+    res.json({ result: true, bookings: data });
+  });
+});
+
 router.delete("/:id", (req, res) => {
   Cart.deleteOne({ _id: req.params.id }).then(() => {
     res.json({ result: true });
