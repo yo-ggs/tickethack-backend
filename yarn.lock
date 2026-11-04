@@ -144,7 +144,7 @@ depd@^2.0.0, depd@~2.0.0:
 
 dotenv@^18.0.9:
   version "18.0.9"
-  resolved "https://registry.npmjs.org/dotenv/-/dotenv-18.0.9.tgz"
+  resolved "https://registry.yarnpkg.com/dotenv/-/dotenv-18.0.9.tgz#5c565760ce7e6fb69f9477ebcd1a3b64c766f9c8"
   integrity sha512-3fVOW4cB02R066PUSwn8O4TJyz9NckQl7F81blIbaq9jKBm2tSmOKky7ZHIXzGvkVPXCSn6jkpziBPZdGFs8Tw==
 
 dunder-proto@^1.0.1:
